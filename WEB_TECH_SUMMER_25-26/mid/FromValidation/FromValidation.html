@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head> <title>Contact Form</title>
+  
+  </head>  
+<body>
+    <center>
+ <h1>Contact Form</h1>
+
+<form onsubmit="return handlesubmit()">
+<table>
+
+<tr>
+    <td><label>Name:</label></td>
+    <td>
+        <input type="text" id="name">
+        <div class="error" id="nameError"></div>
+    </td> 
+</tr>
+
+<tr>
+    <td><label>Email:</label></td>
+    <td>
+        <input type="text" id="email">
+        <div class="error" id="emailError"></div>
+    </td>
+</tr>
+
+<tr>
+    <td><label>Phone:</label></td>
+    <td>
+        <input type="text" id="phone" placeholder="e.g. 01712345678">
+        <div class="error" id="phoneError"></div>
+    </td>
+</tr>
+
+<tr>
+    <td><label>Address:</label></td>
+    <td>
+        <input type="text" id="address">
+        <div class="error" id="addressError"></div>
+    </td>
+</tr>
+
+<tr>
+    <td><label>Message:</label></td>
+    <td>
+        <textarea id="message" rows="4"></textarea>
+        <div class="error" id="messageError"></div>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2" style="text-align:center;">
+        <button type="submit">Submit</button>
+    </td>
+</tr>
+
+</table>
+</form>
+
+    </center>
+ 
+<script> 
+
+ function handlesubmit()
+{
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var phone = document.getElementById("phone").value;
+    var address = document.getElementById("address").value;
+    var message = document.getElementById("message").value;
+
+    var nameError = document.getElementById("nameError");
+    var emailError = document.getElementById("emailError");
+    var phoneError = document.getElementById("phoneError");
+    var addressError = document.getElementById("addressError");
+    var messageError = document.getElementById("messageError");
+
+    nameError.textContent = "";
+    emailError.textContent = "";
+    phoneError.textContent = "";
+    addressError.textContent = "";
+    messageError.textContent = "";
+
+    var isValid = true;
+
+    if(name === "")
+    {
+        nameError.textContent = "Name cannot be empty.";
+        isValid = false;
+    }
+
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(email === "")
+    {
+        emailError.textContent = "Email cannot be empty.";
+        isValid = false;
+    }
+    else if(!emailPattern.test(email))
+    {
+        emailError.textContent = "Please enter a valid email address.";
+        isValid = false;
+    }
+
+   
+    var phonePattern = /^[0-9]{11}$/;
+    if(phone === "")
+    {
+        phoneError.textContent = "Phone number cannot be empty.";
+        isValid = false;
+    }
+    else if(!phonePattern.test(phone))
+    {
+        phoneError.textContent = "Phone number must be exactly 11 digits.";
+        isValid = false;
+    }
+
+
+    if(address === "")
+    {
+        addressError.textContent = "Address cannot be empty.";
+        isValid = false;
+    }
+
+    if(message === "")
+    {
+        messageError.textContent = "Message cannot be empty.";
+        isValid = false;
+    }
+    else if(message.length < 10)
+    {
+        messageError.textContent = "Message must be at least 10 characters.";
+        isValid = false;
+    }
+
+    if(isValid)
+    {
+        alert("Form Submitted \n"+
+        "Name: "+ name +"\n"+
+        "Email: "+ email +"\n"+
+        "Phone: "+ phone +"\n"+
+        "Address: "+ address +"\n"+
+        "Message: "+ message +"\n" );
+    }
+
+    return false;
+}
+</script>
+ 
+</body>
+ 
+ 
+  </html>
