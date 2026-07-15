@@ -2,140 +2,263 @@
 <html lang="en">
 
 <head>
-    <title>multi-setion portfolio website</title>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            text-align: center;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        nav a {
+            margin: 0 15px;
+            cursor: pointer;
+            text-decoration: underline;
+            color: inherit;
+            font-weight: bold;
+        }
+
+        section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        #greeting {
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            display: block;
+        }
+
+        .dark-mode .error {
+            color: #ff6b6b;
+        }
+
+        #switchBtn {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
-<style>
-    body{
-        background-color: white;
-        color: black;
-        text-align:center;
-        padding: 50px;
-    }
-    #message {
-        width:162px;
-        height:50px;
-        color :black;
+<body>
 
-    }
-    
-    
-</style>
-<center>
-    <body>
-    <h1 id ="light">Light Mood</h1>
-    <button id = "switchBtn" onclick="toggleMode()">switch Mode  </button>
+    <h1 id="light">Light Mode</h1>
+    <button id="switchBtn" onclick="toggleMode()">Switch to Dark Mode</button>
 
-    <form onsubmit="handlesubmit()">
-        <table>
-            <tr>   
-                <td>..................................</td>
-                <td>........................................</td>
-                
-            </tr>
-            <tr>
-                <td><label>Name:</label></td>
-                <td>
-                    <input type = "text" id ="name">
-                </td>
-            </tr>
-            <tr>
-                <td><label>Email:</label></td>
-                <td>
-                    <input type = "text" id ="email">
-                </td>
-            </tr>
-            <tr>
-                <td><label>Message:</label></td>
-                <td>
-                    <input type = "text" id ="message">
-                </td>
-            </tr>
-            <tr>
-                <td><button type = "submit">Submit</button></td>
-            </tr>
-        </table>
-    </form>
+    <p id="greeting"></p>
+    <p id="clock"></p>
+
+    <nav>
+        <a onclick="showSection('about')">About</a>
+        <a onclick="showSection('projects')">Projects</a>
+        <a onclick="showSection('contact')">Contact</a>
+    </nav>
+
+    <section id="about" class="active">
+        <h2>About Me</h2>
+        <p>I am a Computer Science student learning web development.</p>
+        <p>I enjoy building projects with HTML, CSS, and JavaScript, and</p> 
+        <p> I am looking for an internship opportunity to grow my skills.</p>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <p>Project 1: Contact Form Validator - built using JavaScript DOM manipulation.</p>
+        <p>Project 2: Student Profile Page - built using HTML/CSS box model.</p>
+        <p>Project 3: This Portfolio Website - theme switching, dynamic sections, form validation.</p>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <form id="contactForm" onsubmit="return handlesubmit()">
+            <table>
+                <tr>
+                    <td><label>Name:</label></td>
+                    <td>
+                        <input type="text" id="name">
+                        <span class="error" id="nameError"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Email:</label></td>
+                    <td>
+                        <input type="text" id="email">
+                        <span class="error" id="emailError"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>Message:</label></td>
+                    <td>
+                        <input type="text" id="message">
+                        <span class="error" id="messageError"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+        <p id="formSuccess" style="color:green;"></p>
+    </section>
+
+    <script>
+        // ---- Time based greeting ----
+        var time = new Date().getHours();
+        var greetingText = "";
+
+        if (time < 12) {
+            greetingText = "Good Morning!";
+        }
+        else if (time < 18) {
+            greetingText = "Good Afternoon!";
+        }
+        else {
+            greetingText = "Good Evening!";
+        }
+
+        document.getElementById("greeting").innerHTML = greetingText + " Welcome to my portfolio.";
+
+
+        // ---- Live clock ----
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            var ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12;
+            if (hours === 0) {
+                hours = 12;
+            }
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+
+            document.getElementById("clock").innerHTML = hours + ":" + minutes + ":" + seconds + " " + ampm;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+
+        // ---- Dark / Light mode toggle ----
+        function toggleMode() {
+            var body = document.body;
+            var title = document.getElementById("light");
+            var button = document.getElementById("switchBtn");
+
+            body.classList.toggle("dark-mode");
+
+            if (body.classList.contains("dark-mode")) {
+                title.innerHTML = "Dark Mode";
+                button.innerHTML = "Switch to Light Mode";
+            }
+            else {
+                title.innerHTML = "Light Mode";
+                button.innerHTML = "Switch to Dark Mode";
+            }
+        }
+
+
+        // ---- Section toggling (About / Projects / Contact) ----
+        function showSection(id) {
+            var sections = document.getElementsByTagName("section");
+
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove("active");
+            }
+
+            document.getElementById(id).classList.add("active");
+        }
+
+
+        // ---- Contact form validation with dynamic error messages ----
+        function handlesubmit() {
+            var name = document.getElementById("name").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var message = document.getElementById("message").value.trim();
+
+            var nameError = document.getElementById("nameError");
+            var emailError = document.getElementById("emailError");
+            var messageError = document.getElementById("messageError");
+            var formSuccess = document.getElementById("formSuccess");
+
+            // Reset messages
+            nameError.innerHTML = "";
+            emailError.innerHTML = "";
+            messageError.innerHTML = "";
+            formSuccess.innerHTML = "";
+
+            var isValid = true;
+
+            if (name === "") {
+                nameError.innerHTML = "Name cannot be empty.";
+                isValid = false;
+            }
+
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === "") {
+                emailError.innerHTML = "Email cannot be empty.";
+                isValid = false;
+            }
+            else if (!emailPattern.test(email)) {
+                emailError.innerHTML = "Please enter a valid email address.";
+                isValid = false;
+            }
+
+            if (message === "") {
+                messageError.innerHTML = "Message cannot be empty.";
+                isValid = false;
+            }
+            else if (message.length < 10) {
+                messageError.innerHTML = "Message must be at least 10 characters long.";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return false;
+            }
+
+            formSuccess.innerHTML = "Form submitted successfully! Thank you, " + name + ".";
+
+            document.getElementById("contactForm").reset();
+
+            return false;
+        }
+    </script>
+
 </body>
-
-</center>
-
-
-
-<script>
-    var time = new Date().getHours();
-    if(time < 12)
-    {
-        alert("Good Morning!");
-    }
-    else if(time < 18)
-    {
-        alert("Good Afternoon!");
-    }
-    else
-    {
-        alert("Good Evening!");
-    }
-
-</script>
-
-<script>
-
-    function toggleMode()
-    {
-        var body = document.body;
-        var title = document.getElementById("light");
-        var button = document.getElementById("switchBtn");
-
-        if (body.style.backgroundColor === "black") 
-        {
-            body.style.backgroundColor = "white";
-            body.style.color = "black";
-            title.innerHTML = "Light Mood";
-            button.innerHTML = "Switch to Dark Mode";
-        } 
-        else 
-        {
-            body.style.backgroundColor = "black";
-            body.style.color = "white";
-            title.innerHTML = "Dark Mood";
-            button.innerHTML = "Switch to Light Mode";
-        }
-
-    }
-
-    function handlesubmit()
-    {
-        var name =document.getElementById("name").value;
-        var email =document.getElementById("email").value;
-        var message =document.getElementById("message").value;
-
-        if(name ===""|| email ==="" || message ==="")
-        {
-            alert("Please fill in all fields.");
-            return false;
-        }
-        if(message.length <10)
-        {
-            alert("Message must be at least 10 characters long.");
-            return false;
-        }
-
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!emailPattern.test(email))
-        {
-            alert("Please enter a valid email address.");
-            return false;
-        }   
-
-        alert("Form submitted successfully!"+"\n"+
-            "Name: " + name +"\n"+
-            "Email: " + email + "\n"+
-            "Message: " + message +"\n"
-        );
-        
-    }
-</script>
-
 
 </html>
