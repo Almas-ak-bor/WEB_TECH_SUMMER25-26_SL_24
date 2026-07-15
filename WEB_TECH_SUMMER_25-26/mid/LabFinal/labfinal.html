@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>multi-setion portfolio website</title>
+</head>
+
+<style>
+    body{
+        background-color: white;
+        color: black;
+        text-align:center;
+        padding: 50px;
+    }
+    #message {
+        width:162px;
+        height:50px;
+        color :black;
+
+    }
+    
+    
+</style>
+<center>
+    <body>
+    <h1 id ="light">Light Mood</h1>
+    <button id = "switchBtn" onclick="toggleMode()">switch Mode  </button>
+
+    <form onsubmit="handlesubmit()">
+        <table>
+            <tr>   
+                <td>..................................</td>
+                <td>........................................</td>
+                
+            </tr>
+            <tr>
+                <td><label>Name:</label></td>
+                <td>
+                    <input type = "text" id ="name">
+                </td>
+            </tr>
+            <tr>
+                <td><label>Email:</label></td>
+                <td>
+                    <input type = "text" id ="email">
+                </td>
+            </tr>
+            <tr>
+                <td><label>Message:</label></td>
+                <td>
+                    <input type = "text" id ="message">
+                </td>
+            </tr>
+            <tr>
+                <td><button type = "submit">Submit</button></td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</center>
+
+
+
+<script>
+    var time = new Date().getHours();
+    if(time < 12)
+    {
+        alert("Good Morning!");
+    }
+    else if(time < 18)
+    {
+        alert("Good Afternoon!");
+    }
+    else
+    {
+        alert("Good Evening!");
+    }
+
+</script>
+
+<script>
+
+    function toggleMode()
+    {
+        var body = document.body;
+        var title = document.getElementById("light");
+        var button = document.getElementById("switchBtn");
+
+        if (body.style.backgroundColor === "black") 
+        {
+            body.style.backgroundColor = "white";
+            body.style.color = "black";
+            title.innerHTML = "Light Mood";
+            button.innerHTML = "Switch to Dark Mode";
+        } 
+        else 
+        {
+            body.style.backgroundColor = "black";
+            body.style.color = "white";
+            title.innerHTML = "Dark Mood";
+            button.innerHTML = "Switch to Light Mode";
+        }
+
+    }
+
+    function handlesubmit()
+    {
+        var name =document.getElementById("name").value;
+        var email =document.getElementById("email").value;
+        var message =document.getElementById("message").value;
+
+        if(name ===""|| email ==="" || message ==="")
+        {
+            alert("Please fill in all fields.");
+            return false;
+        }
+        if(message.length <10)
+        {
+            alert("Message must be at least 10 characters long.");
+            return false;
+        }
+
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailPattern.test(email))
+        {
+            alert("Please enter a valid email address.");
+            return false;
+        }   
+
+        alert("Form submitted successfully!"+"\n"+
+            "Name: " + name +"\n"+
+            "Email: " + email + "\n"+
+            "Message: " + message +"\n"
+        );
+        
+    }
+</script>
+
+
+</html>
